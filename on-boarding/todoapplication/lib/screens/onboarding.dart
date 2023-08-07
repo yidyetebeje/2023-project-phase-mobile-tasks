@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todoapplication/main.dart';
 import 'package:todoapplication/screens/task_list.dart';
 
 class OnBoardingPage extends StatelessWidget {
@@ -24,9 +25,7 @@ class OnBoardingPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: FilledButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const TaskListPage())
-                    );
+                    Navigator.pushNamed(context, TodoPageRoutes.taskList);
                   },
                   style: FilledButton.styleFrom(
                     backgroundColor: const Color(0xFF0C8CE9),

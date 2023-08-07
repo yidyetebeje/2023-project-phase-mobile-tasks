@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:todoapplication/Task.dart';
 
 class TaskDetailPage extends StatelessWidget {
   const TaskDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var args = ModalRoute.of(context)!.settings.arguments as Map;
+    var task = args['task'] as Task;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Todo List'),
@@ -35,13 +38,13 @@ class TaskDetailPage extends StatelessWidget {
                     fit: BoxFit.cover),
               ),
               TaskDescriptionItem(
-                  title: 'Task Name', description: 'Buy a new phone'),
+                  title: 'Task Name', description: task.title),
+              const SizedBox(height: 20,),
+              TaskDescriptionItem(
+                  title: 'Task Description', description:  task.description),
               SizedBox(height: 20,),
               TaskDescriptionItem(
-                  title: 'Task Description', description: 'First I have to animate the logo and prototyping my design. It’s very important.'),
-              SizedBox(height: 20,),
-              TaskDescriptionItem(
-                  title: 'Task Date', description: 'April. 29, 2023'),
+                  title: 'Task Date', description: task.due.toString()),
             ],
           ),
         ));
@@ -60,8 +63,8 @@ class TaskDescriptionItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          this.title,
-          style: TextStyle(
+          title,
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 17,
             fontFamily: 'Inter',
@@ -78,8 +81,8 @@ class TaskDescriptionItem extends StatelessWidget {
             child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Text(
-                  this.description,
-                  style: TextStyle(
+                  description,
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 17,
                     fontFamily: 'Inter',

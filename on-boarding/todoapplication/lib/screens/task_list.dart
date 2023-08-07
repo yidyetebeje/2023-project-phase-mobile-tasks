@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todoapplication/screens/create_task.dart';
-import 'package:todoapplication/screens/task_detail.dart';
+import 'package:todoapplication/main.dart';
+
+import '../Task.dart';
 
 class TaskListPage extends StatelessWidget {
   const TaskListPage({super.key});
@@ -34,11 +35,11 @@ class TaskListPage extends StatelessWidget {
               height: 242,
               child:
                   Image.asset('assets/images/tasklist.png', fit: BoxFit.cover)),
-          Align(
+          const Align(
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: const Text('Task list',
+              child: Text('Task list',
                   style: TextStyle(
                       color: Color.fromARGB(255, 231, 83, 54),
                       fontWeight: FontWeight.bold,
@@ -49,7 +50,10 @@ class TaskListPage extends StatelessWidget {
             child: ListView.builder(
               itemCount: 3,
               itemBuilder: (context, index) {
-                return TaskTile();
+                return TaskTile(task: Task(
+                    title: 'Task Name',
+                    description: 'Buy a new phone',
+                    due: DateTime.now()));
               },
             ),
           ),
@@ -57,16 +61,14 @@ class TaskListPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
               child: FilledButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context)=> AddTaskPage())
-                  );
+                  Navigator.pushNamed(context, TodoPageRoutes.addTask);
                 },
                 style: FilledButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8)),
                     padding:
-                        EdgeInsets.symmetric(horizontal: 64, vertical: 16)),
+                        const EdgeInsets.symmetric(horizontal: 64, vertical: 16)),
                 child: const Text('create task',
                     style: TextStyle(color: Colors.white, fontSize: 19)),
               ))
@@ -77,17 +79,17 @@ class TaskListPage extends StatelessWidget {
 }
 
 class TaskTile extends StatelessWidget {
-  TaskTile({super.key});
-  final date = DateTime.now();
+  final Task task;
+  TaskTile({super.key, required this.task});
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
         child: GestureDetector(
           onTap: (){
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context)=> TaskDetailPage())
-            );
+            Navigator.pushNamed(context, TodoPageRoutes.taskDetail, arguments: {
+              'task': task
+            });
           },
           child: Container(
             height: 60,
@@ -99,7 +101,7 @@ class TaskTile extends StatelessWidget {
                   BoxShadow(
                     color: Colors.grey.shade300,
                     blurRadius: 10,
-                    offset: Offset(0, 5),
+                    offset: const Offset(0, 5),
                   )
                 ]),
             child: Padding(
@@ -113,21 +115,21 @@ class TaskTile extends StatelessWidget {
                         Container(
                             alignment: Alignment.center,
                             child: Text(
-                              'U',
+                              task.title[0],
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineLarge!
                                   .copyWith(
                                       fontSize: 20, fontWeight: FontWeight.bold),
                             )),
-                        SizedBox(
+                        const SizedBox(
                           width: 40,
                         ),
                         Container(
                           alignment: Alignment.topLeft,
                           height: 60,
                           child: Text(
-                            'Task Name',
+                            task.title,
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineLarge!
@@ -144,8 +146,8 @@ class TaskTile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'April. 29, 2023',
-                              style: TextStyle(
+                              task.due.toIso8601String(),
+                              style: const  TextStyle(
                                 color: Colors.black,
                                 fontSize: 12,
                                 fontFamily: 'Inter',
@@ -157,7 +159,7 @@ class TaskTile extends StatelessWidget {
                                   color: Theme.of(context).colorScheme.primary,
                                   borderRadius: BorderRadius.circular(8)),
                               child:
-                                  Expanded(flex: 1, child: Container(width: 6)),
+                                  Expanded(child: Container(width: 6)),
                             )
                           ],
                         )),
