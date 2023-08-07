@@ -7,14 +7,13 @@ class Task {
   bool? status;
 
   Task(this.title, this.description, this.due, this.status);
-
   void printTask() {
     print("Title: $title");
     print("Description: $description");
     print("Due: $due");
     print("Status: $status");
   }
-
+  
   void setTitle(String? title) => this.title = title;
   String? get getTitle => this.title;
 
@@ -94,6 +93,17 @@ class TaskManager {
     List<Task> incompletedTasks = this.tasks.where((element) => !element.getStatus!).toList();
     return incompletedTasks;
   }
+  void printTableView(){
+    int length = tasks.length;
+    if(length == 0){
+      print("No tasks");
+      return;
+    }
+    print("Title\t\tDescription\t\tDue\t\tStatus");
+    tasks.forEach((element) {
+      print("${element.getTitle}\t\t${element.getDescription}\t\t${element.getDue}\t\t${element.getStatus}");
+    });
+  }
 }
 
 class TaskApplication {
@@ -110,6 +120,7 @@ class TaskApplication {
       print("6. Edit task");
       print("7. Print completed tasks");
       print("8. Print pending tasks");
+      print("9. Print Table View");
       print("9. Exit");
       int choice = int.parse(stdin.readLineSync()!);
       switch (choice) {
