@@ -38,6 +38,8 @@ dependencies:
   shared_preferences:
   meta:
   rxdart:
+  bloc:
+  bloc_test:
 
 
   # The following adds the Cupertino Icons font to your application.

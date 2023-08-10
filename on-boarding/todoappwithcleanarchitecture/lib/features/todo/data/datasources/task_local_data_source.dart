@@ -16,7 +16,7 @@ class TaskLocalDataSource extends TaskApi {
   }) : _sharedPreferences = sharedPreferences {
     _init();
   }
-  final _taskStreamController = BehaviorSubject<List<TaskModel>>.seeded(const []);
+  final _taskStreamController = BehaviorSubject<List<Task_>>.seeded(const []);
   final SharedPreferences _sharedPreferences;
   @visibleForTesting
   static const kTodosCollectionKey = '__todos_collection_key__';
@@ -31,8 +31,32 @@ class TaskLocalDataSource extends TaskApi {
       ).map((jsonMap) => TaskModel.fromJson(jsonMap)).toList();
       _taskStreamController.add(tasks);
     } else {
+      await _setValue(kTodosCollectionKey, json.encode([
+      {
+        'id': '1',
+        'title': 'Task 1',
+        'description': 'Description 1',
+        'isDone': false,
+        'due': '2021-09-01T00:00:00.000Z',
+      },
+      {
+        'id': '2',
+        'title': 'Task 2',
+        'description': 'Description 2',
+        'isDone': false,
+        'due': '2021-09-02T00:00:00.000Z',
+      },
+      {
+        'id': '3',
+        'title': 'Task 3',
+        'description': 'Description 3',
+        'isDone': false,
+        'due': '2021-09-03T00:00:00.000Z',
+      },
+    ]));
       _taskStreamController.add(const []);
     }
+    // seed some custom value
   }
 
   @override
@@ -48,7 +72,6 @@ class TaskLocalDataSource extends TaskApi {
       _setValue(kTodosCollectionKey, taskJson);
       return Future.value(Right(task));
     } catch (e) {
-      print(e);
       return Future.value(Left(StorageFailure()));
     }
   }
@@ -87,9 +110,9 @@ class TaskLocalDataSource extends TaskApi {
   @override
   Future<Either<Failure, Task_>> updateTask(Task_ task) {
     final tasks = [..._taskStreamController.value];
-    final index = tasks.indexWhere((task) => task.id == task.id);
+    final index = tasks.indexWhere((t) => t.id == task.id);
     if (index >= 0) {
-      tasks[index] = task as TaskModel;
+      tasks[index] = task;
       _taskStreamController.add(tasks);
       try {
         final taskJson = json.encode(tasks);

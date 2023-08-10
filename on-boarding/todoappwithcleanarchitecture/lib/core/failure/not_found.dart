@@ -1,3 +1,5 @@
+
+
 import 'failure.dart';
 
 class NotFound extends Failure {

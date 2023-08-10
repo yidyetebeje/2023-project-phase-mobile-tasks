@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:todoappwithcleanarchitecture/core/failure/failure.dart';
-import 'package:todoappwithcleanarchitecture/core/usecase/UseCase.dart';
+import 'package:todoappwithcleanarchitecture/core/usecase/use_case.dart';
 import 'package:todoappwithcleanarchitecture/features/todo/domain/entities/task.dart';
 
 import '../repositories/task_repository.dart';
