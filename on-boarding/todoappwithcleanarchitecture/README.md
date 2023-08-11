@@ -75,6 +75,15 @@ The app includes the following features:
 - Update a task: Users can update the title, due date, and completion status of a task.
 - Delete a task: Users can delete a task from the list.
 
+
+Testing
+Unit tests for core domain logic and repositories
+Widget tests for UI and interactions
+Run all tests:
+
+   ````bash
+   flutter test
+   ````
 ## Screenshots
 
 | Task List Screen | Task Detail Screen |OnBoarding Screen | Create Task Screen |
