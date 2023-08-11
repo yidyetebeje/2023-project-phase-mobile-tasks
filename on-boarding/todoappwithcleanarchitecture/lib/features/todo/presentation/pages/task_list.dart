@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:todoappwithcleanarchitecture/features/todo/domain/entities/task.dart';
 import 'package:todoappwithcleanarchitecture/features/todo/domain/usecases/delete_task.dart';
 import 'package:todoappwithcleanarchitecture/features/todo/domain/usecases/update_task.dart';
@@ -86,7 +87,7 @@ class TaskList extends StatelessWidget {
             );
           }
           return Padding(
-            padding: const EdgeInsets.fromLTRB(0, 12.0, 0, 40.0),
+            padding: const EdgeInsets.fromLTRB(20.0, 12.0,20.0, 40.0),
             child: Column(children: [
               Container(
                   width: 236,
@@ -105,25 +106,28 @@ class TaskList extends StatelessWidget {
                 ),
               ),
               Expanded(child: child),
-              Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
-                  child: FilledButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, TaskAppPageRoutes.addTask);
-                    },
-                    style: FilledButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 64, vertical: 16)),
-                    child: const Text('create task',
-                        style: TextStyle(color: Colors.white, fontSize: 19)),
-                  ))
+
             ]),
           );
-        }));
+        }),
+    floatingActionButton:
+    Padding(
+        padding:
+        const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+        child: FilledButton(
+          onPressed: () {
+            Navigator.pushNamed(context, TaskAppPageRoutes.addTask);
+          },
+          style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 64, vertical: 16)),
+          child: const Text('create task',
+              style: TextStyle(color: Colors.white, fontSize: 19)),
+        )),
+    );
   }
 }
 
@@ -133,10 +137,23 @@ class TaskTile extends StatelessWidget {
   TaskTile({required this.task, required this.onToggle}) : super(key: Key(task.id));
   @override
   Widget build(BuildContext context) {
+    final formatter = DateFormat('MMMM d, y');
+    final today = DateTime.now();
+            final tomorrow = today.add(Duration(days: 1));
+            final isToday = task.due.year == today.year &&
+                task.due.month == today.month &&
+                task.due.day == today.day;
+            final isTomorrow = task.due.year == tomorrow.year &&
+                task.due.month == tomorrow.month &&
+                task.due.day == tomorrow.day;
+            final dueDateText = isToday
+                ? 'Today'
+                : isTomorrow
+                    ? 'Tomorrow'
+                    : formatter.format(task.due);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Container(
-        
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: Colors.grey.shade300),
@@ -175,7 +192,7 @@ class TaskTile extends StatelessWidget {
                             ),
                       ),
                       Text(
-                        task.due.toIso8601String(),
+                        dueDateText,
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 12,

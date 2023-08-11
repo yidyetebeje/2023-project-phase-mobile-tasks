@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todoappwithcleanarchitecture/core/app_block_observer.dart';
+import 'package:todoappwithcleanarchitecture/features/todo/presentation/pages/create_task_page.dart';
+import 'package:todoappwithcleanarchitecture/features/todo/presentation/pages/onboarding.dart';
+import 'package:todoappwithcleanarchitecture/features/todo/presentation/pages/task_edit_page.dart';
 import 'package:todoappwithcleanarchitecture/features/todo/presentation/pages/task_list.dart';
 import 'package:todoappwithcleanarchitecture/service_locator.dart';
 
@@ -27,11 +30,18 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const TaskListPage(),
+      initialRoute: TaskAppPageRoutes.onBoarding,
+        routes: {
+          TaskAppPageRoutes.onBoarding: (context) => const OnBoardingPage(),
+          TaskAppPageRoutes.taskDetail: (context) => const TaskDetailPage(),
+          TaskAppPageRoutes.addTask: (context) => const AddTaskPage(),
+          TaskAppPageRoutes.taskList: (context) => const TaskListPage(),
+        },
+        theme: ThemeData(
+          colorScheme:
+              ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 231, 83, 54)),
+          useMaterial3: true,
+        )
     );
   }
 }
