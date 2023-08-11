@@ -88,7 +88,7 @@ Run all tests:
 
 | Task List Screen | Task Detail Screen |OnBoarding Screen | Create Task Screen |
 | ---------------- | ------------------ |------------------- |-------------------- |
-| ![Task List](/2.png) | ![Task Detail](/3.png) | ![OnBoarding](/1.png) | ![create task](/4.png) |
+| ![Task List](./2.png) | ![Task Detail](./4.png) | ![OnBoarding](./1.png) | ![create task](./3.png) |
 
 
 
