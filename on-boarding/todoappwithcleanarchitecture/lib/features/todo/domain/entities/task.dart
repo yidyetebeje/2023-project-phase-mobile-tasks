@@ -7,7 +7,7 @@ class Task_ extends Equatable {
   final bool isDone;
   final DateTime due;
 
-  Task_({
+  const Task_({
     required this.id,
     required this.title,
     required this.description,

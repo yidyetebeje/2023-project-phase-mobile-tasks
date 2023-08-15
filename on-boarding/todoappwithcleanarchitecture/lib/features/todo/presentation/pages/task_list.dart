@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -53,7 +52,7 @@ class TaskList extends StatelessWidget {
           ],
         ),
         body: BlocBuilder<TaskBloc, TaskState>(builder: (context, state) {
-          Widget child = const  Center(child: CircularProgressIndicator.adaptive());
+          Widget child = const  Center(child: CircularProgressIndicator());
           if (state.status == TaskStatus.loading) {
             child = const Center(child: CircularProgressIndicator());
           }
@@ -71,7 +70,7 @@ class TaskList extends StatelessWidget {
               itemCount: state.tasks.length,
               itemBuilder: (context, index) {
                 Task_ task = state.tasks[index];
-                return Dismissible(key: Key(task.id), 
+                return Dismissible(key: Key('${task.id}_tile'), 
                 onDismissed: (direction) {
                 // Remove the item from the data source.
                 context.read<TaskBloc>().add(TaskDeleted(task: task));
@@ -89,7 +88,7 @@ class TaskList extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 12.0,20.0, 40.0),
             child: Column(children: [
-              Container(
+              SizedBox(
                   width: 236,
                   height: 242,
                   child: Image.asset('assets/images/tasklist.png',
@@ -139,7 +138,7 @@ class TaskTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final formatter = DateFormat('MMMM d, y');
     final today = DateTime.now();
-            final tomorrow = today.add(Duration(days: 1));
+            final tomorrow = today.add(const Duration(days: 1));
             final isToday = task.due.year == today.year &&
                 task.due.month == today.month &&
                 task.due.day == today.day;

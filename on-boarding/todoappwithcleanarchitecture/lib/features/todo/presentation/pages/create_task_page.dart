@@ -11,23 +11,33 @@ import 'package:todoappwithcleanarchitecture/service_locator.dart';
 import 'package:uuid/uuid.dart';
 
 class AddTaskPage extends StatefulWidget {
-  const AddTaskPage({Key? key}) : super(key: key);
+  late Task_ task;
+  final CreateTaskCubit createTaskCubit;
+  AddTaskPage({Key? key, required this.createTaskCubit}) : super(key: key) {
+    task = Task_(
+      title: titleController.text,
+      description: descriptionController.text,
+      due: dueDate ?? DateTime.now(),
+      isDone: false,
+      id: const Uuid().v4(),
+    );
+  }
+  DateTime? dueDate;
+
+  final formKey = GlobalKey<FormState>();
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final scrollController = ScrollController();
 
   @override
   _AddTaskPageState createState() => _AddTaskPageState();
 }
 
 class _AddTaskPageState extends State<AddTaskPage> {
-  DateTime? _dueDate;
-
-  final _formKey = GlobalKey<FormState>();
-  final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CreateTaskCubit(createTask: locator<CreateTask>()),
+      create: (context) => widget.createTaskCubit,
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -48,26 +58,29 @@ class _AddTaskPageState extends State<AddTaskPage> {
         body: BlocBuilder<CreateTaskCubit, CreateTaskState>(
           builder: (context, state) {
             return SingleChildScrollView(
-              controller: scrollController,
+              controller: widget.scrollController,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Form(
-                  key: _formKey,
+                  key: widget.formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text('Create new task',
-                          style:
-                              Theme.of(context).textTheme.headlineLarge!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 25,
-                                  )),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineLarge!
+                              .copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                              )),
                       // line spacer
                       const SizedBox(height: 20),
                       Divider(height: 10),
                       const SizedBox(height: 20),
                       // text field
                       MyTextField.named(
+                        key: new Key('title'),
                         label: 'Main task name',
                         hintText: 'task name',
                         validator: (value) {
@@ -78,59 +91,62 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         },
                         onChanged: (value) {
                           setState(() {
-                            _titleController.text = value;
+                            widget.titleController.text = value;
                           });
                         },
-                        textController: _titleController,
+                        textController: widget.titleController,
                       ),
                       const SizedBox(height: 20),
                       DateTimePickerFormField(
+                        key: const Key('due_date'),
                         label: 'Due date',
                         hintText: 'Select a due date',
-                        initialValue: _dueDate,
+                        initialValue: widget.dueDate,
                         validator: (value) {
-                          if (_dueDate == null) {
+                          if (widget.dueDate == null) {
                             return 'Please select a due date';
                           }
                           return null;
                         },
                         onSaved: (value) {
                           setState(() {
-                            _dueDate = value;
+                            widget.dueDate = value;
                           });
                         },
                       ),
                       const SizedBox(height: 20),
                       MyTextField.named(
+                          key: const Key('description'),
                           label: 'Description',
                           hintText: 'detail description',
                           onChanged: (value) {
                             setState(() {
-                              _descriptionController.text = value;
+                              widget.descriptionController.text = value;
                             });
                           },
-                          textController: _descriptionController),
+                          textController: widget.descriptionController),
                       SizedBox(
                         height: 100,
                       ),
                       FilledButton(
                           onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-
-                              context.read<CreateTaskCubit>().createTask(Task_(
-                                    title: _titleController.text,
-                                    description: _descriptionController.text,
-                                    due: _dueDate ?? DateTime.now(),
-                                    isDone: false,
-                                    id: const Uuid().v4(),
-                                  ));
-                                  Navigator.pushNamed(context, TaskAppPageRoutes.taskList);
-                                   ScaffoldMessenger.of(context).showSnackBar(
+                            if (widget.formKey.currentState!.validate()) {
+                              widget.task = widget.task.copyWith(
+                                title: widget.titleController.text,
+                                due: widget.dueDate,
+                                description: widget.descriptionController.text,
+                              );
+                              context
+                                  .read<CreateTaskCubit>()
+                                  .createTask(widget.task);
+                              Navigator.pushNamed(
+                                  context, TaskAppPageRoutes.taskList);
+                              ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                      content: Text('task added successfully')));
+                                      content:
+                                          Text('task added successfully')));
                             }
                           },
-
                           child: const Padding(
                             padding: EdgeInsets.all(16.0),
                             child: Text('Add task'),
@@ -142,7 +158,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
             );
           },
         ),
-
       ),
     );
   }
@@ -160,18 +175,17 @@ class MyTextField extends StatelessWidget {
   TextEditingController textController;
   Key? key;
   void Function()? onTap;
-  MyTextField.named({
-    required this.label,
-    this.iconButton,
-    super.key,
-    required this.hintText,
-    this.suffixIcon,
-    this.valueText,
-    this.validator,
-    this.onChanged,
-    required this.textController,
-    this.onTap
-  });
+  MyTextField.named(
+      {required this.label,
+      this.iconButton,
+      super.key,
+      required this.hintText,
+      this.suffixIcon,
+      this.valueText,
+      this.validator,
+      this.onChanged,
+      required this.textController,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {

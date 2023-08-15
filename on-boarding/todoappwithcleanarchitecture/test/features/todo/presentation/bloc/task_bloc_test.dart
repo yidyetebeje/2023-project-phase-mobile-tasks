@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:todoappwithcleanarchitecture/features/todo/domain/entities/task.dart';
+import 'package:todoappwithcleanarchitecture/features/todo/domain/usecases/create_task.dart';
 import 'package:todoappwithcleanarchitecture/features/todo/domain/usecases/delete_task.dart';
 import 'package:todoappwithcleanarchitecture/features/todo/domain/usecases/update_task.dart';
 import 'package:todoappwithcleanarchitecture/features/todo/domain/usecases/view_all_tasks.dart';
@@ -11,7 +12,7 @@ import 'package:todoappwithcleanarchitecture/features/todo/presentation/bloc/tas
 import 'task_bloc_test.mocks.dart';
 
 
-@GenerateNiceMocks([MockSpec<ViewAllTasks>(), MockSpec<UpdateTask>(), MockSpec<DeleteTask>()])
+@GenerateNiceMocks([MockSpec<ViewAllTasks>(), MockSpec<UpdateTask>(), MockSpec<DeleteTask>(), MockSpec<CreateTask>()])
 void main() {
   final tTaskModel = Task_(
     id: '1',

@@ -1,10 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:todoappwithcleanarchitecture/core/failure/failure.dart';
 import 'package:todoappwithcleanarchitecture/core/failure/storage_failure.dart';
 import 'package:todoappwithcleanarchitecture/features/todo/domain/entities/task.dart';
-import 'package:todoappwithcleanarchitecture/features/todo/domain/repositories/task_repository.dart';
 import 'package:todoappwithcleanarchitecture/features/todo/domain/usecases/delete_task.dart';
 
 import 'view_all_tasks_test.mocks.dart';

@@ -53,8 +53,9 @@ class TaskListPage extends StatelessWidget {
                 return TaskTile(task: Task(
                     title: 'Task Name',
                     description: 'Buy a new phone',
-                    due: DateTime.now()));
+                    due: DateTime.now()), key: Key(index.toString()));
               },
+              
             ),
           ),
           Padding(
@@ -159,7 +160,7 @@ class TaskTile extends StatelessWidget {
                                   color: Theme.of(context).colorScheme.primary,
                                   borderRadius: BorderRadius.circular(8)),
                               child:
-                                  Expanded(child: Container(width: 6)),
+                                Container(width: 6),
                             )
                           ],
                         )),

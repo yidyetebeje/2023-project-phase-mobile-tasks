@@ -1,7 +1,7 @@
 import 'package:todoappwithcleanarchitecture/features/todo/domain/entities/task.dart';
 
 class TaskModel extends Task_ {
-  TaskModel({
+  const TaskModel({
     required String id,
     required String title,
     required String description,
@@ -25,6 +25,7 @@ class TaskModel extends Task_ {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,

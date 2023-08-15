@@ -66,11 +66,11 @@ void main() {
       'should return unit when delete completes successfully',
       () async {
         when(mockTaskApi.deleteTask(any))
-          .thenAnswer((_) async => Right(unit));
+          .thenAnswer((_) async => const Right(unit));
 
         final result = await repository.deleteTask(tId);
 
-        expect(result, Right(unit));
+        expect(result, const Right(unit));
         verify(mockTaskApi.deleteTask(tId));
         verifyNoMoreInteractions(mockTaskApi);
       },
@@ -134,7 +134,7 @@ void main() {
     test("should return list of tasks when get tasks completes successfully", () async {
       when(mockTaskApi.getTasks())
         .thenAnswer((_) => Stream.value(tTodoList));
-      final result = await repository.getTasks();
+      final result = repository.getTasks();
       expect(result, emits(tTodoList));
       verify(mockTaskApi.getTasks());
       verifyNoMoreInteractions(mockTaskApi);

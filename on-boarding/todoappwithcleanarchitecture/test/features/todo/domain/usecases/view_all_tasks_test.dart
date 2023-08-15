@@ -1,12 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
-import 'package:todoappwithcleanarchitecture/core/usecase/no_params_use_case.dart';
 import 'package:todoappwithcleanarchitecture/features/todo/domain/entities/task.dart';
 import 'package:todoappwithcleanarchitecture/features/todo/domain/repositories/task_repository.dart';
 import 'package:todoappwithcleanarchitecture/features/todo/domain/usecases/view_all_tasks.dart';
 import 'package:mockito/mockito.dart';
-import 'package:dartz/dartz.dart';
-import 'package:todoappwithcleanarchitecture/core/failure/failure.dart';
 
 @GenerateNiceMocks([MockSpec<TaskRepository>()])
 import 'view_all_tasks_test.mocks.dart';

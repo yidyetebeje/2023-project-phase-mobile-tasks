@@ -12,6 +12,8 @@ import 'package:todoappwithcleanarchitecture/features/todo/domain/entities/task.
     as _i6;
 import 'package:todoappwithcleanarchitecture/features/todo/domain/repositories/task_repository.dart'
     as _i2;
+import 'package:todoappwithcleanarchitecture/features/todo/domain/usecases/create_task.dart'
+    as _i10;
 import 'package:todoappwithcleanarchitecture/features/todo/domain/usecases/delete_task.dart'
     as _i9;
 import 'package:todoappwithcleanarchitecture/features/todo/domain/usecases/update_task.dart'
@@ -178,4 +180,47 @@ class MockDeleteTask extends _i1.Mock implements _i9.DeleteTask {
           ),
         )),
       ) as _i5.Future<_i3.Either<_i8.Failure, void>>);
+}
+
+/// A class which mocks [CreateTask].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCreateTask extends _i1.Mock implements _i10.CreateTask {
+  @override
+  _i2.TaskRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeTaskRepository_0(
+          this,
+          Invocation.getter(#repository),
+        ),
+        returnValueForMissingStub: _FakeTaskRepository_0(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i2.TaskRepository);
+  @override
+  _i5.Future<_i3.Either<_i8.Failure, _i6.Task_>> call(_i6.Task_? task) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [task],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i8.Failure, _i6.Task_>>.value(
+            _FakeEither_1<_i8.Failure, _i6.Task_>(
+          this,
+          Invocation.method(
+            #call,
+            [task],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Either<_i8.Failure, _i6.Task_>>.value(
+                _FakeEither_1<_i8.Failure, _i6.Task_>(
+          this,
+          Invocation.method(
+            #call,
+            [task],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i8.Failure, _i6.Task_>>);
 }
